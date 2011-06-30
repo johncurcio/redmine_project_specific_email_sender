@@ -1,3 +1,4 @@
 # Sample plugin
 en:
   project_email_label: Outbound Email
+  field_email: Email
