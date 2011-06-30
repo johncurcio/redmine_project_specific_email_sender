@@ -59,8 +59,10 @@
 </script>
 <% form_for @project, :url => {:controller => 'project_emails', :action => 'update', :id => @project} do |f| %>
 <div class="box tabular">
+<p>
 <%= f.label :email %>
 <%= f.text_field :email %>
+</p>
 </div>
 <%= submit_tag("Update", :id => "email_submit") %>
 <% end %>
