@@ -2,4 +2,4 @@
 en:
   project_email_label: Outbound Email
   field_email: Email
-  notice_email_restored: Email restored to system default
+  notice_email_reset: Email was reset to system default.

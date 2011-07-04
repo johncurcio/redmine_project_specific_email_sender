@@ -1,8 +1,23 @@
 require 'redmine'
 require 'dispatcher'
-require_dependency 'project_patch'
-require_dependency 'mailer_patch'
-require_dependency 'projects_helper_patch'
+
+Dispatcher.to_prepare do
+  require_dependency 'project'
+  require_dependency 'mailer'
+  require_dependency 'projects_helper'
+
+  unless Project.included_modules.include? RedmineProjectSpecificEmailSender::ProjectPatch
+    Project.send(:include, RedmineProjectSpecificEmailSender::ProjectPatch)
+  end
+
+  unless Mailer.included_modules.include? RedmineProjectSpecificEmailSender::MailerPatch
+    Mailer.send(:include, RedmineProjectSpecificEmailSender::MailerPatch)
+  end
+
+  unless ProjectsHelper.include? RedmineProjectSpecificEmailSender::ProjectsHelperPatch
+    ProjectsHelper.send(:include, RedmineProjectSpecificEmailSender::ProjectsHelperPatch)
+  end
+end
 
 Redmine::Plugin.register :redmine_project_specific_email_sender do
   name 'Redmine Project Specific Email Sender plugin'
@@ -10,12 +25,5 @@ Redmine::Plugin.register :redmine_project_specific_email_sender do
   description "This is a plugin for Redmine which allows each project to have it's own sender email address for project related, outbound emails"
   version '1.0.0'
   
-  permission :edit_project_email, :project_emails => [:restore_default, :update]
-end
-
-# This was required for plugin to be included in development environment
-Dispatcher.to_prepare do
-  Project.send(:include, ProjectPatch)
-  Mailer.send(:include, MailerPatch)
-  ProjectsHelper.send(:include, ProjectsHelperPatch)
+  permission :edit_project_email, :project_emails => [:update, :destroy]
 end
