@@ -4,6 +4,7 @@ require 'dispatcher'
 Dispatcher.to_prepare do
   require_dependency 'project'
   require_dependency 'mailer'
+  require_dependency 'mail_handler'
   require_dependency 'projects_helper'
 
   unless Project.included_modules.include? RedmineProjectSpecificEmailSender::ProjectPatch
@@ -12,6 +13,10 @@ Dispatcher.to_prepare do
 
   unless Mailer.included_modules.include? RedmineProjectSpecificEmailSender::MailerPatch
     Mailer.send(:include, RedmineProjectSpecificEmailSender::MailerPatch)
+  end
+
+  unless MailHandler.included_modules.include? RedmineProjectSpecificEmailSender::MailHandlerPatch
+    MailHandler.send(:include, RedmineProjectSpecificEmailSender::MailHandlerPatch)
   end
 
   unless ProjectsHelper.include? RedmineProjectSpecificEmailSender::ProjectsHelperPatch
