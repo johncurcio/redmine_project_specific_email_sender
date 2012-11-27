@@ -1,23 +1,4 @@
 require 'redmine'
-require 'dispatcher'
-
-Dispatcher.to_prepare do
-  require_dependency 'project'
-  require_dependency 'mailer'
-  require_dependency 'projects_helper'
-
-  unless Project.included_modules.include? RedmineProjectSpecificEmailSender::ProjectPatch
-    Project.send(:include, RedmineProjectSpecificEmailSender::ProjectPatch)
-  end
-
-  unless Mailer.included_modules.include? RedmineProjectSpecificEmailSender::MailerPatch
-    Mailer.send(:include, RedmineProjectSpecificEmailSender::MailerPatch)
-  end
-
-  unless ProjectsHelper.include? RedmineProjectSpecificEmailSender::ProjectsHelperPatch
-    ProjectsHelper.send(:include, RedmineProjectSpecificEmailSender::ProjectsHelperPatch)
-  end
-end
 
 Redmine::Plugin.register :redmine_project_specific_email_sender do
   name 'Redmine Project Specific Email Sender plugin'
@@ -26,4 +7,16 @@ Redmine::Plugin.register :redmine_project_specific_email_sender do
   version '1.0.0'
   
   permission :edit_project_email, :project_emails => [:update, :destroy]
+end
+
+prepare_block = Proc.new do
+  Project.send(:include, RedmineProjectSpecificEmailSender::ProjectPatch)
+  Mailer.send(:include, RedmineProjectSpecificEmailSender::MailerPatch)
+  ProjectsHelper.send(:include, RedmineProjectSpecificEmailSender::ProjectsHelperPatch)
+end
+
+if Rails.env.development?
+  ActionDispatch::Reloader.to_prepare { prepare_block.call }
+else
+  prepare_block.call
 end

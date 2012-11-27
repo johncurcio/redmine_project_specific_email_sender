@@ -1,4 +1,4 @@
-<% form_tag project_project_email_path(@project), :method => :put do |f| %>
+<%= form_tag project_outbound_email_path(@project), :method => :put do |f| %>
 <div class="box tabular">
   <p>
     <%= label_tag :email %>
@@ -10,7 +10,7 @@
 
 <% if @project.project_email %>
   <div class="contextual">
-    <%= link_to l(:button_reset), project_project_email_path(@project),
+    <%= link_to l(:button_reset), project_outbound_email_path(@project),
         :method => :delete, :confirm => l(:text_are_you_sure),
         :class => "icon icon-del" %>
   </div>

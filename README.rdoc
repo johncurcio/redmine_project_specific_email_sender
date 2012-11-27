@@ -2,6 +2,8 @@
 
 Allows each project to have a custom sender email address for all outbound emails.
 
+For Redmine versions prior to 2.x, check out the pre-2.x branch.
+
 Permission to edit projects email address can be granted to Roles.  Under Role permissions, check the "Edit Project email" permission
 to grant a role edit privileges.
 
