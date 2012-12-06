@@ -43,9 +43,9 @@ module RedmineProjectSpecificEmailSender
         news_added_without_project_specific_email(news)
       end
       
-      def message_posted_with_project_specific_email(message, recipients)
+      def message_posted_with_project_specific_email(message)
         @project = message.board.project
-        message_posted_without_project_specific_email(message, recipients)
+        message_posted_without_project_specific_email(message)
       end
     end
   end
