@@ -2,7 +2,7 @@
 <div class="box tabular">
   <p>
     <%= label_tag :email %>
-    <%= text_field_tag :email, params[:email] || @project.email %>
+    <%= text_field_tag :email, params[:email] || @project.email, :size => 60 %>
   </p>
 </div>
 <%= submit_tag l(:button_update) %>
