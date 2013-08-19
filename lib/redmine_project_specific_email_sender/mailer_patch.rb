@@ -53,12 +53,12 @@ module RedmineProjectSpecificEmailSender
         message_posted_without_project_specific_email(*args)
       end
 
-      def wiki_content_added(*args)
+      def wiki_content_added_with_project_specific_email(*args)
         @project = args.project.identifier,
         wiki_content_added_without_project_specific_email(*args)
       end
 
-      def wiki_content_updated(*args)
+      def wiki_content_updated_with_project_specific_email(*args)
         @project = args.project.identifier,
         wiki_content_updated_without_project_specific_email(*args)
       end
