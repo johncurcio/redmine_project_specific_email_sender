@@ -10,6 +10,8 @@ module RedmineProjectSpecificEmailSender
         alias_method_chain :attachments_added, :project_specific_email
         alias_method_chain :news_added, :project_specific_email
         alias_method_chain :message_posted, :project_specific_email
+        alias_method_chain :wiki_content_added, :project_specific_email
+        alias_method_chain :wiki_content_updated, :project_specific_email
       end
     end
 
@@ -49,6 +51,16 @@ module RedmineProjectSpecificEmailSender
       def message_posted_with_project_specific_email(*args)
         @project = args.first.board.project
         message_posted_without_project_specific_email(*args)
+      end
+
+      def wiki_content_added(*args)
+        @project = args.project.identifier,
+        wiki_content_added_without_project_specific_email(*args)
+      end
+
+      def wiki_content_updated(*args)
+        @project = args.project.identifier,
+        wiki_content_updated_without_project_specific_email(*args)
       end
     end
   end
