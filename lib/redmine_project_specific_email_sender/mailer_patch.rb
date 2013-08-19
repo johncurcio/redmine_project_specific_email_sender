@@ -3,7 +3,7 @@ module RedmineProjectSpecificEmailSender
     def self.included(base)
       base.send(:include, InstanceMethods)
       base.class_eval do
-        alias_method_chain :mail_from, :project_specific_email
+        alias_method_chain :mail, :project_specific_email
         alias_method_chain :issue_add, :project_specific_email
         alias_method_chain :issue_edit, :project_specific_email
         alias_method_chain :document_added, :project_specific_email
@@ -14,8 +14,11 @@ module RedmineProjectSpecificEmailSender
     end
 
     module InstanceMethods
-      def mail_from_with_project_specific_email
-        @project ? @project.email : mail_from_without_project_specific_email
+      def mail_with_project_specific_email(headers={})
+        if (@project)
+          headers[:from] = @project.email
+        end
+        mail_without_project_specific_email(headers)
       end
 
       def issue_add_with_project_specific_email(*args)
