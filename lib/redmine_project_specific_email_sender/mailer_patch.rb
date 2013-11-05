@@ -18,7 +18,7 @@ module RedmineProjectSpecificEmailSender
     module InstanceMethods
       def mail_with_project_specific_email(headers={})
         if (@project)
-          headers[:from] = @project.email
+          headers['X-Redmine-Project-Specific-Sender'] = @project.email
         end
         mail_without_project_specific_email(headers)
       end

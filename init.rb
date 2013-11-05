@@ -20,3 +20,4 @@ if Rails.env.development?
 else
   prepare_block.call
 end
+ActionMailer::Base.register_interceptor(RedmineProjectSpecificEmailSender::Interceptor)
