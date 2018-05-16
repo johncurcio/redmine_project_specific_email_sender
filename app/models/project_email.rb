@@ -1,4 +1,5 @@
 class ProjectEmail < ActiveRecord::Base
+  attr_accessible :email, :project_id
   belongs_to :project
   
   validates_presence_of :email, :project_id
